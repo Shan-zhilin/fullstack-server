@@ -4,6 +4,7 @@ const router = new Router()
 
 router.post('/login',async (ctx) => {
     const data = ctx.request.body;
+    console.log(data)
     const result = await User.login(data.username);
     if (result != null) {
         const {
