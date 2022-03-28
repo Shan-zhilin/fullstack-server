@@ -8,5 +8,5 @@ app.use(bodyParser())
 // 路由映射
 app.use(router.routes())
 app.listen(3000, () => {
-	console.log('server runing at http://localhostL:3000');
+	console.log('server runing at http://localhost:3000');
 });

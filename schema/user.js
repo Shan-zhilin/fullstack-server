@@ -3,38 +3,46 @@ module.exports = (sequelize, DataTypes) => {
 		'user',
 		{
 			id: {
-				autoIncrement: true,
+				// autoIncrement: true,
 				type: DataTypes.INTEGER,
 				allowNull: false,
 				primaryKey: true
 			},
 			username: {
-				type: DataTypes.STRING(50),
+				type: DataTypes.STRING(255),
 				allowNull: false
 			},
 			password: {
 				type: DataTypes.STRING(255),
 				allowNull: false
 			},
-			idcard:{
-				type:DataTypes.STRING(255),
+			sex:{
+				type:DataTypes.STRING(2),
 				allowNull:false
 			},
-			email: {
+			classes: {
 				type: DataTypes.STRING(50),
+				allowNull: false
+			},
+			type: {
+				type: DataTypes.INTEGER,
+				allowNull: false
+			},
+			address: {
+				type: DataTypes.STRING(255),
 				allowNull: true
 			},
-			notice: {
-				type: DataTypes.TINYINT,
+			mailbox: {
+				type: DataTypes.STRING(255),
 				allowNull: true
 			},
-			role: {
-				type: DataTypes.TINYINT,
-				allowNull: true
+			modifytime:{
+				type: DataTypes,
+				allowNull: false
 			},
-			github: {
-				type: DataTypes.TEXT,
-				allowNull: true
+			createtime: {
+				type: DataTypes,
+				allowNull: false
 			}
 		},
 		{
