@@ -1,6 +1,8 @@
 const sequelize = require('../config/db');
 const { DataTypes } = require('sequelize');
 const User = require('../schema/user')(sequelize,DataTypes);
+const {SIGNKEY} = require('../globals.js')
+const jwtUtil = require('../utils/jwtutils')
 
 /**
  * @description: 用户登录
@@ -18,8 +20,12 @@ const User = require('../schema/user')(sequelize,DataTypes);
     return userInfo;
 }
 
-
+async function getUserDataByToken({token}) {
+  const result = await jwtUtil.verifysync(token,SIGNKEY)
+  return result
+}
 
 module.exports = {
-    login
+    login,
+    getUserDataByToken
 }

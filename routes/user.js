@@ -57,5 +57,17 @@ router.post('/login',async (ctx) => {
       }
 })
 
+router.get('/users/getUserDataByToken',async (ctx) => {
+    const {token} = ctx.request.query
+    const result = await User.getUserDataByToken({token})
+    console.log(result)
+    if (result != null) {
+        ctx.response.body = {
+            success:true,
+            message:'获取成功',
+            value:result
+        }
+    }
+})
 
 module.exports = router
