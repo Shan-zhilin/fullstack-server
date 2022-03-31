@@ -45,14 +45,15 @@ function verifysync(token, secretkey) {
     return new Promise((resolve, reject) => {
         jwt.verify(token, secretkey, function (err, decode) {
             if (err) {
-                console.log(err.message);
                 resolve({
-                    err: 'error',
+                    success: false,
                     msg: '会话已过期'
                 })
             } else {
-                console.log("解密成功")
-                resolve(decode)
+                resolve({
+                    success:true,
+                    msg:decode
+                })
             }
         })
 

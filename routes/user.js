@@ -23,10 +23,10 @@ router.post('/login',async (ctx) => {
             // 生成token返回给前端
             const jwt_token = jwtUtil.sign({
                 id:result.dataValues.id,
-                usernmae:result.dataValues.usernmae,
+                username:result.dataValues.username,
                 type:result.dataValues.type
             },SIGNKEY,3600)
-
+            
             ctx.response.body = {
                 value: result.dataValues,
                 message: '',
@@ -60,14 +60,38 @@ router.post('/login',async (ctx) => {
 router.get('/users/getUserDataByToken',async (ctx) => {
     const {token} = ctx.request.query
     const result = await User.getUserDataByToken({token})
-    console.log(result)
-    if (result != null) {
+    if (result.success) {
         ctx.response.body = {
             success:true,
             message:'获取成功',
-            value:result
+            value:result.msg
+        }
+    }else {
+        ctx.response.body = {
+            success:false,
+            message:'会话过期'
         }
     }
+})
+
+router.get('/users/getUsersByTypePage',async (ctx) => {
+    const {type,pageNum,currPage} = ctx.request.query
+    const {count,result} = await User.getUsersByTypePage({type,pageNum,currPage})
+
+    if (result) {
+        ctx.response.body = {
+            success:true,
+            message:'查询成功',
+            value: result,
+            count
+        }
+    }else {
+        ctx.response.body = {
+            success:false,
+            message:'查询失败,请确认查询条件'
+        }
+    }
+   
 })
 
 module.exports = router
