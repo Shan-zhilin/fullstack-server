@@ -25,7 +25,7 @@ router.post('/login',async (ctx) => {
                 id:result.dataValues.id,
                 username:result.dataValues.username,
                 type:result.dataValues.type
-            },SIGNKEY,3600)
+            },SIGNKEY,60)
             
             ctx.response.body = {
                 value: result.dataValues,
@@ -67,6 +67,7 @@ router.get('/users/getUserDataByToken',async (ctx) => {
             value:result.msg
         }
     }else {
+        ctx.status = 403
         ctx.response.body = {
             success:false,
             message:'会话过期'
