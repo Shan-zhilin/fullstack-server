@@ -43,14 +43,14 @@ app.use(async (ctx, next) => {
   });
 });
 // 注意：放在路由前面 校验白名单 登录和注册接口不需要校验
-app.use(
-  koajwt({
-    secret: SIGNKEY,
-  }).unless({
-    // 配置白名单
-    path: [/\/register/, /\/login/],
-  })
-);
+// app.use(
+//   koajwt({
+//     secret: SIGNKEY,
+//   }).unless({
+//     // 配置白名单
+//     path: [/\/register/, /\/login/],
+//   })
+// );
 
 // 路由映射
 app.use(router.routes(), router.allowedMethods());

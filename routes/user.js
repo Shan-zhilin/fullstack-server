@@ -4,6 +4,7 @@ const jwtUtil = require('../utils/jwtutils')
 const router = new Router()
 const {SIGNKEY} = require('../globals')
 
+// 登录注册
 router.post('/login',async (ctx) => {
     const data = ctx.request.body;
     const result = await User.login({
@@ -25,7 +26,7 @@ router.post('/login',async (ctx) => {
                 id:result.dataValues.id,
                 username:result.dataValues.username,
                 type:result.dataValues.type
-            },SIGNKEY,60)
+            },SIGNKEY,'3h')
             
             ctx.response.body = {
                 value: result.dataValues,
@@ -57,6 +58,7 @@ router.post('/login',async (ctx) => {
       }
 })
 
+// 解析前端token
 router.get('/users/getUserDataByToken',async (ctx) => {
     const {token} = ctx.request.query
     const result = await User.getUserDataByToken({token})
@@ -67,7 +69,7 @@ router.get('/users/getUserDataByToken',async (ctx) => {
             value:result.msg
         }
     }else {
-        ctx.status = 403
+        ctx.status = 401
         ctx.response.body = {
             success:false,
             message:'会话过期'
@@ -75,10 +77,16 @@ router.get('/users/getUserDataByToken',async (ctx) => {
     }
 })
 
+// 获取用户列表
 router.get('/users/getUsersByTypePage',async (ctx) => {
-    const {type,pageNum,currPage} = ctx.request.query
-    const {count,result} = await User.getUsersByTypePage({type,pageNum,currPage})
-
+    const {type,selectType,inputValue,pageNum,currPage} = ctx.request.query
+    const queryInfo = {
+        type: Number(type)
+      }
+      if (inputValue !== '') {
+        queryInfo[selectType] = inputValue
+      }
+    const {count,result} = await User.getUsersByTypePage({queryInfo,pageNum,currPage})
     if (result) {
         ctx.response.body = {
             success:true,
@@ -95,4 +103,16 @@ router.get('/users/getUsersByTypePage',async (ctx) => {
    
 })
 
+// 删除用户
+router.get('/users/delUserdata',async (ctx) => {
+    const {id} = ctx.request.query
+    const result = await User.deleteUser({id})
+    if (result) {
+        ctx.response.body = {
+            success: true,
+            message: '删除成功'
+        }
+    }
+
+})
 module.exports = router
