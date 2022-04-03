@@ -115,4 +115,21 @@ router.get('/users/delUserdata',async (ctx) => {
     }
 
 })
+
+// 修改用户信息
+router.post('/users/upUserdata',async (ctx) => {
+    const {id,username,sex,address,type} = ctx.request.body
+    const result = await User.updateUserInfo({id,username,sex,address,type})
+    if (result) {
+        ctx.response.body = {
+            success: true,
+            message: '修改成功'
+        }
+    }else {
+        ctx.response.body = {
+            success: false,
+            message: '修改失败'
+        }  
+    }
+})
 module.exports = router

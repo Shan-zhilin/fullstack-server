@@ -75,12 +75,22 @@ async function deleteUser({id}) {
         id
       }
     })
-    return delReadRes && delUserRes
+    return delReadRes || delUserRes
 }
+
+async function updateUserInfo({id,username,sex,address,type}){
+    const result = await User.update({type,username,sex,address,type},{
+      where: {
+        id:id
+      }
+    })
+    return result[0]
+} 
 
 module.exports = {
     login,
     getUserDataByToken,
     getUsersByTypePage,
-    deleteUser
+    deleteUser,
+    updateUserInfo
 }
