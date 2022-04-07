@@ -34,6 +34,15 @@ async function getAllNotice({ title, startTime, endTime, pageNum, currPage }) {
   };
 }
 
+// 删除通知
+async function deleteNotice({n_id}) {
+  const result = await Notice.destroy({
+    where: {n_id}
+  })
+  return result
+}
+
 module.exports = {
   getAllNotice,
+  deleteNotice
 };

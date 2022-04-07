@@ -16,4 +16,21 @@ router.get('/notice/getAllNotice',async (ctx) => {
 
 })
 
+// 删除通知
+router.get('/notice/deleteNotice',async (ctx) => {
+    const {n_id} = ctx.request.query
+    const result = await Notice.deleteNotice({n_id})
+    if (result) {
+        ctx.response.body = {
+            message:'删除成功',
+            success:true
+        }
+    }else {
+        ctx.response.body = {
+            message:'删除失败',
+            success:false
+        }
+    }
+    
+})
 module.exports = router
