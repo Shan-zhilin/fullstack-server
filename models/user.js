@@ -1,24 +1,28 @@
-const sequelize = require('../config/db');
-const { DataTypes } = require('sequelize');
-const User = require('../schema/user')(sequelize,DataTypes);
-const Read = require('../schema/read')(sequelize,DataTypes);
-const {SIGNKEY} = require('../globals.js')
-const jwtUtil = require('../utils/jwtutils');
+const sequelize = require("../config/db");
+const { DataTypes } = require("sequelize");
+const Admin = require("../schema/admin")(sequelize, DataTypes);
+const Student = require("./student");
+const Teacher = require("./teacher");
+const { SIGNKEY } = require("../globals.js");
+const jwtUtil = require("../utils/jwtutils");
 
 /**
  * @description: 用户登录
  * @param {*} username
  * @return {*} userInfo
  */
- async function login({username,password,type}) {
-    const userInfo = await User.findOne({
+async function login({ username, password, type }) {
+  if (type === 1) {
+    return await Admin.findOne({
       where: {
         username,
-        // password,
-        // type
-      }
+      },
     });
-    return userInfo;
+  } else if (type === 2) {
+    return await Student.getStudent({ username, password, type });
+  } else {
+    return await Teacher.getTeacher({ username, password, type });
+  }
 }
 
 /**
@@ -26,71 +30,77 @@ const jwtUtil = require('../utils/jwtutils');
  * @param {*} token
  * @return {*} result
  */
-async function getUserDataByToken({token}) {
-  const result = await jwtUtil.verifysync(token,SIGNKEY)
-  return result
+async function getUserDataByToken({ token }) {
+  const result = await jwtUtil.verifysync(token, SIGNKEY);
+  return result;
 }
 
 /**
  * @description: 根据用户类型获取用户信息，包含分页等 并按照最近一次修改时间降序排列
  * @param {*} type pageNum currPage
- * @return {*} data total 
+ * @return {*} data total
  */
-async function getUsersByTypePage({queryInfo,pageNum,currPage}) {
-  // limit表示每页多少个,offset表示查第几页 按每一页多少条数据 进行分组
-  const start =  pageNum * (Number(currPage) - 1)
-
-  const result = await User.findAll({
-    where: queryInfo,
-    offset: start, 
-    limit: Number(pageNum),
-    order:[['createtime', 'DESC']]
-  })
-  const count = await User.count({
-    where: {
-      type: queryInfo.type
-    }
-  })
-
-  return {
-    count,
-    result
+async function getUsersByTypePage({ queryInfo, pageNum, currPage }) {
+  const {type} = queryInfo
+  if (type === 2) {
+    return await Student.getStudentInfo({ queryInfo, pageNum, currPage });
+  } else if (type === 3) {
+    return await Teacher.getTeacherInfo({ queryInfo, pageNum, currPage });
   }
 }
-
 
 /**
  *
  * @des 管理员删除用户操作
  * @param {*} ctx
  */
-async function deleteUser({id}) {
-    const delReadRes = await Read.destroy({
-      where: {
-        u_id:id  
-      }
-    })
-    const delUserRes = await User.destroy({
-      where: {
-        id
-      }
-    })
-    return delReadRes || delUserRes
+async function deleteUser({ id, type }) {
+  let result;
+  if (type == 2) {
+    result = await Student.deleteStudent({
+      id,
+    });
+  } else {
+    result = await Teacher.deleteTeacher({
+      id,
+    });
+  }
+
+  return result;
 }
 
-async function updateUserInfo({id,username,sex,address,type}){
-    const result = await User.update({type,username,sex,address,type},{
-      where: {
-        id:id
-      }
-    })
-    return result[0]
-} 
+// 更新用户信息
+async function updateUserInfo({ id, username, sex, address, type }) {
+  let result;
+  // 根据type类型判断是学生还是老师
+  if (type == 2) {
+    const updateInfo = {username,
+      sex,
+      address,
+      type}
+    result = await Student.updateStudent({
+      id,updateInfo
+    });
+  } else if (type == 3) {
+    const updateInfo = {
+      type,
+      username,
+      sex,
+      address,
+      type,
+    }
+    result = await Teacher.updateTeacher({
+      id,updateInfo
+    });
+  }
+
+  return result[0];
+}
 
 module.exports = {
-    login,
-    getUserDataByToken,
-    getUsersByTypePage,
-    deleteUser,
-    updateUserInfo
-}
+  login,
+  getUserDataByToken,
+  getUsersByTypePage,
+  deleteUser,
+  updateUserInfo,
+};

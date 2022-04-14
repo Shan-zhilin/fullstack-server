@@ -1,9 +1,8 @@
 module.exports = (sequelize, DataTypes) => {
 	return sequelize.define(
-		'user',
+		'admins',
 		{
 			id: {
-				// autoIncrement: true,
 				type: DataTypes.INTEGER,
 				allowNull: false,
 				primaryKey: true
@@ -23,10 +22,6 @@ module.exports = (sequelize, DataTypes) => {
 			sex:{
 				type:DataTypes.STRING(2),
 				allowNull:false
-			},
-			classes: {
-				type: DataTypes.STRING(50),
-				allowNull: false
 			},
 			type: {
 				type: DataTypes.INTEGER,
@@ -51,7 +46,7 @@ module.exports = (sequelize, DataTypes) => {
 		},
 		{
 			sequelize,
-			tableName: 'user',
+			tableName: 'admins',
 			timestamps: false,
 			indexes: [
 				{

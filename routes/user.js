@@ -9,8 +9,8 @@ router.post('/login',async (ctx) => {
     const data = ctx.request.body;
     const result = await User.login({
         username:data.username,
-        // password:data.password,
-        // type: data.type
+        password:data.password,
+        type: data.type
     });
 
     if (result != null) {
@@ -105,15 +105,19 @@ router.get('/users/getUsersByTypePage',async (ctx) => {
 
 // 删除用户
 router.get('/users/delUserdata',async (ctx) => {
-    const {id} = ctx.request.query
-    const result = await User.deleteUser({id})
+    const {id,type} = ctx.request.query
+    const result = await User.deleteUser({id,type})
     if (result) {
         ctx.response.body = {
             success: true,
             message: '删除成功'
         }
+    }else {
+        ctx.response.body = {
+            success: false,
+            message: '删除失败'
+        }
     }
-
 })
 
 // 修改用户信息

@@ -1,6 +1,6 @@
 module.exports = (sequelize, DataTypes) => {
 	return sequelize.define(
-		'user',
+		'read',
 		{
 			r_id: {
 				// autoIncrement: true,
