@@ -13,7 +13,7 @@ async function getStudent({ username, password, type }){
 }
 // 查询所有学生信息
 async function getStudentInfo({ queryInfo, pageNum, currPage }){
-    // limit表示每页多少个,offset表示查第几页 按每一页多少条数据 进行分组
+  // limit表示每页多少个,offset表示查第几页 按每一页多少条数据 进行分组
   const start = pageNum * (Number(currPage) - 1);
   const result = await Student.findAll({
     where: queryInfo,
