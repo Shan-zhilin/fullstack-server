@@ -3,9 +3,9 @@ module.exports = (sequelize, DataTypes) => {
 		'notice',
 		{
 			n_id: {
-				// autoIncrement: true,
+				autoIncrement: true,
 				type: DataTypes.INTEGER,
-				allowNull: false,
+				allowNull: true,
 				primaryKey: true
 			},
             title: {
@@ -18,7 +18,7 @@ module.exports = (sequelize, DataTypes) => {
             },
             createtime: {
                 type: DataTypes,
-                allowNull: false
+                allowNull: true
             },
             class: {
                 type: DataTypes,

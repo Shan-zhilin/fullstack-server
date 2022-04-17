@@ -122,8 +122,8 @@ router.get('/users/delUserdata',async (ctx) => {
 
 // 修改用户信息
 router.post('/users/upUserdata',async (ctx) => {
-    const {id,username,sex,address,type} = ctx.request.body
-    const result = await User.updateUserInfo({id,username,sex,address,type})
+    const {info} = ctx.request.body
+    const result = await User.updateUserInfo({info: JSON.parse(info)})
     if (result) {
         ctx.response.body = {
             success: true,
@@ -134,6 +134,23 @@ router.post('/users/upUserdata',async (ctx) => {
             success: false,
             message: '修改失败'
         }  
+    }
+})
+
+// 添加用户
+router.post('/users/addUserdata',async (ctx) => {
+    const {info} = ctx.request.body
+    const result = await User.addUser(JSON.parse(info))
+    if (result === 'exit') {
+        ctx.response.body = {
+            success: false,
+            message: '用户已存在'
+        }
+    }else {
+        ctx.response.body = {
+            success: true,
+            message: '添加成功'
+        }
     }
 })
 module.exports = router

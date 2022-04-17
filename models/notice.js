@@ -42,7 +42,18 @@ async function deleteNotice({n_id}) {
   return result
 }
 
+// 创建一个通知
+async function createNotice() {
+  const result = await Notice.create({
+    title: '111',
+    content: 11,
+    class: 1,
+  })
+  return result
+}
+
 module.exports = {
   getAllNotice,
-  deleteNotice
+  deleteNotice,
+  createNotice
 };

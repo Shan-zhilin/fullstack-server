@@ -39,18 +39,26 @@ async function deleteTeacher({id}) {
 }
 
 // 修改教师信息
-async function updateTeacher({id,updateInfo}){
-    const result = await Teacher.update(updateInfo,{
+async function updateTeacher({info}){
+    const result = await Teacher.update(info,{
         where: {
-          id:id
+          id:info.id
         }
     })
     return result
 }
 
+// 添加老师
+async function createTeacher(args) {
+    // 判断老师是否存在
+    let isexit = await Teacher.findOne({where:{id: args.id}})
+    if (isexit) return 'exit'
+    return await Teacher.create(args)
+}
 module.exports = {
     updateTeacher,
     deleteTeacher,
     getTeacherInfo,
-    getTeacher
+    getTeacher,
+    createTeacher
 }

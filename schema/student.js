@@ -23,14 +23,6 @@ module.exports = (sequelize, DataTypes) => {
 				type:DataTypes.STRING(2),
 				allowNull:false
 			},
-			classes: {
-				type: DataTypes.STRING(50),
-				allowNull: false
-			},
-            grade: {
-                type: DataTypes.INTEGER,
-                allowNull: false
-            },
 			type: {
 				type: DataTypes.INTEGER,
 				allowNull: false
@@ -43,19 +35,33 @@ module.exports = (sequelize, DataTypes) => {
 				type: DataTypes.STRING(255),
 				allowNull: true
 			},
+			grade:{
+				type:DataTypes.STRING(255),
+				allowNull:true
+			},
+			classes:{
+				type:DataTypes.STRING(255),
+				allowNull:true
+			},
 			modifytime:{
 				type: DataTypes,
-				allowNull: false
+				allowNull: true
 			},
 			createtime: {
 				type: DataTypes,
-				allowNull: false
-			}
+				allowNull: true
+			},
+			head:{
+				type: DataTypes.STRING(255),	
+				allowNull: true
+			},	
 		},
 		{
 			sequelize,
 			tableName: 'students',
-			timestamps: false,
+			timestamps: true,
+			createdAt: 'createtime',
+			updatedAt: 'modifytime',
 			indexes: [
 				{
 					name: 'PRIMARY',

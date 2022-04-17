@@ -33,4 +33,19 @@ router.get('/notice/deleteNotice',async (ctx) => {
     }
     
 })
+router.get('/notice/add',async (ctx) => {
+    const result = await Notice.createNotice()
+    if (result) {
+        ctx.response.body = {
+            message:'删除成功',
+            success:true
+        }
+    }else {
+        ctx.response.body = {
+            message:'删除失败',
+            success:false
+        }
+    }
+    
+})
 module.exports = router

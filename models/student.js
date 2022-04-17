@@ -45,17 +45,26 @@ async function deleteStudent({id}) {
 }
 
 // 修改学生信息
-async function updateStudent({id,updateInfo}){
-    return await Student.update(updateInfo,{
+async function updateStudent({info}){
+    return await Student.update(info,{
         where: {
-          id:id
+          id:info.id
         }
     })
+}
+
+// 添加学生
+async function createStudent(args) {
+    // 判断学生是否存在
+    let isexit = await Student.findOne({where:{id: args.id}})
+    if (isexit) return 'exit'
+    return await Student.create(args)
 }
 
 module.exports = {
     updateStudent,
     deleteStudent,
     getStudentInfo,
-    getStudent
+    getStudent,
+    createStudent
 }

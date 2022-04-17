@@ -70,31 +70,37 @@ async function deleteUser({ id, type }) {
 }
 
 // 更新用户信息
-async function updateUserInfo({ id, username, sex, address, type }) {
+async function updateUserInfo({ info }) {
   let result;
   // 根据type类型判断是学生还是老师
-  if (type == 2) {
-    const updateInfo = {username,
-      sex,
-      address,
-      type}
+  if (info.type == 2) {
     result = await Student.updateStudent({
-      id,updateInfo
+      info
     });
-  } else if (type == 3) {
-    const updateInfo = {
-      type,
-      username,
-      sex,
-      address,
-      type,
-    }
+  } else if (info.type == 3) {
     result = await Teacher.updateTeacher({
-      id,updateInfo
+      info
     });
   }
-
+  console.log(result)
   return result[0];
+}
+
+/**
+ *@des 添加用户
+ * @param {*} args
+ */
+async function addUser(info) {
+  const {type} = info
+  if(type == 1) {
+     const isexit = await Admin.findOne({where:{id: info.id}})
+     if (isexit) return 'exit'
+     return Admin.create(info)
+  }else if (type == 2) {
+    return await Student.createStudent(info)
+  }else {
+    return await Teacher.createTeacher(info)
+  }
 }
 
 module.exports = {
@@ -103,4 +109,5 @@ module.exports = {
   getUsersByTypePage,
   deleteUser,
   updateUserInfo,
+  addUser
 };

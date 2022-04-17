@@ -47,7 +47,9 @@ module.exports = (sequelize, DataTypes) => {
 		{
 			sequelize,
 			tableName: 'admins',
-			timestamps: false,
+			timestamps: true,
+			createdAt: 'createtime',
+			updatedAt: 'modifytime',
 			indexes: [
 				{
 					name: 'PRIMARY',

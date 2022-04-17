@@ -7,12 +7,9 @@ router.get('/class/getclsses', async (ctx) => {
     const {
         pageNum,
         currPage,
-        classname
+        queryInfo
     } = ctx.request.query;
-    let queryInfo = {}
-    if (classname !== '') {
-        queryInfo.classname = classname
-    }
+    
     const {count,result} = await Class.getClassInfo({
         queryInfo,
         pageNum,
@@ -49,4 +46,6 @@ router.post('/class/deleteClass', async (ctx) => {
         }
     }
 })
+
+
 module.exports = router

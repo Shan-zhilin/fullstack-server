@@ -42,12 +42,18 @@ module.exports = (sequelize, DataTypes) => {
 			createtime: {
 				type: DataTypes,
 				allowNull: false
+			},
+			head:{
+				type: DataTypes.STRING(255),	
+				allowNull: true
 			}
 		},
 		{
 			sequelize,
 			tableName: 'teachers',
-			timestamps: false,
+			timestamps: true,
+			createdAt: 'createtime',
+			updatedAt: 'modifytime',
 			indexes: [
 				{
 					name: 'PRIMARY',
