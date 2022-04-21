@@ -1,16 +1,31 @@
 const Koa = require("koa");
 const bodyParser = require("koa-bodyparser");
+const koaBody = require('koa-body')
+const koaStatic = require('koa-static')
+const path = require('path')
 const koajwt = require("koa-jwt");
 const router = require("./routes/index.js");
 const { SIGNKEY } = require("./globals");
 const jwtUtil = require("./utils/jwtutils");
 const app = new Koa();
 
+// 访问服务器静态资源
+app.use(koaStatic(path.join(__dirname, 'public')))
+
 // 使用ctx.body解析中间件
-app.use(bodyParser());
+// app.use(bodyParser());
+
+app.use(koaBody({
+  multipart: true,
+  formidable: {
+    maxFileSize: 500 * 1024 * 1024, // 设置上传文件大小最大限制，默认
+    // 保留文件扩展名
+    keepExtensions: true,
+  }
+}));
 
 /* 
-	校验前端传过来的token，查看是否已经过期，如果过期则需要重新登录
+  校验前端传过来的token，查看是否已经过期，如果过期则需要重新登录
 */
 app.use(async (ctx, next) => {
   if (ctx.header && ctx.header.authorization) {
@@ -24,7 +39,7 @@ app.use(async (ctx, next) => {
           //jwt.verify方法验证token是否有效
           await jwtUtil.verifysync(token, SIGNKEY);
         } catch (error) {
-			// 此项目未使用后端token，所以不许在此重新生成token
+          // 此项目未使用后端token，所以不许在此重新生成token
           //token过期 生成新的token
           //   const newToken = getToken(user);
           //将新token放入Authorization中返回给前端
