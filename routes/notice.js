@@ -3,14 +3,14 @@ const Notice = require('../models/notice')
 const router = new Router()
 
 router.get('/notice/getAllNotice',async (ctx) => {
-    const {title,startTime,endTime,pageNum,currPage} = ctx.request.query
-    const {data,count} = await Notice.getAllNotice({title,startTime,endTime,pageNum,currPage})
+    const {title,startTime,endTime,pageNum,currPage,classes} = ctx.request.query
+    const {data,count} = await Notice.getAllNotice({title,startTime,endTime,pageNum,currPage,classes})
     if (data) {
         ctx.response.body = {
             success:true,
             message:'查询成功',
             value: data,
-            count: count
+            total: count
         }
     }
 
@@ -33,6 +33,8 @@ router.get('/notice/deleteNotice',async (ctx) => {
     }
     
 })
+
+// 添加通知
 router.get('/notice/add',async (ctx) => {
     const result = await Notice.createNotice()
     if (result) {
@@ -47,5 +49,18 @@ router.get('/notice/add',async (ctx) => {
         }
     }
     
+})
+
+// 获取阅读人数
+router.get('/notice/getReadNum',async (ctx) => {
+    const {u_id} = ctx.request.query
+    const result = await Notice.getReadNum({u_id})
+    if (result) {
+        ctx.response.body = {
+            message:'查询成功',
+            success:true,
+            value: result
+        }
+    }
 })
 module.exports = router

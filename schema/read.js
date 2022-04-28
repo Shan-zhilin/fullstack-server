@@ -3,13 +3,12 @@ module.exports = (sequelize, DataTypes) => {
 		'read',
 		{
 			r_id: {
-				// autoIncrement: true,
 				type: DataTypes.INTEGER,
 				allowNull: false,
 				primaryKey: true
 			},
             u_id: {
-                type: DataTypes.INTEGER,
+                type: DataTypes.STRING(255),
                 allowNull: false
             },
             n_id: {
@@ -24,7 +23,9 @@ module.exports = (sequelize, DataTypes) => {
 		{
 			sequelize,
 			tableName: 'read',
-			timestamps: false,
+			timestamps: true,
+			createdAt: 'readtime',
+			updatedAt: false,
 			indexes: [
 				{
 					name: 'PRIMARY',

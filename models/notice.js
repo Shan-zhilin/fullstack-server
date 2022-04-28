@@ -2,27 +2,35 @@ const sequelize = require("../config/db");
 const { Op } = require("sequelize");
 const { DataTypes } = require("sequelize");
 const Notice = require("../schema/notice")(sequelize, DataTypes);
+const Read = require("../schema/read")(sequelize, DataTypes);
 
 /**
  * @des 获取所有通知
  * @param {*} ctx
  * @returns noticeInfo
  */
-async function getAllNotice({ title, startTime, endTime, pageNum, currPage }) {
+async function getAllNotice({ title, startTime, endTime, pageNum, currPage, classes }) {
   // limit表示每页多少个,offset表示查第几页 按每一页多少条数据 进行分组
   const start = pageNum * (Number(currPage) - 1);
   const queryInfo = {}
   if (title) {
     queryInfo.title = title
-  }else if (startTime) {
+  }
+  if (classes) {
+    queryInfo.class = {
+      // 根据class 进行模糊查询
+      [Op.like]: `%${classes}%`
+    }
+  }
+  if (startTime != '') {
     queryInfo.createtime = {
-      [Op.between]:[startTime,endTime]
+      [Op.between]: [startTime, endTime]
     }
   }
   const data = await Notice.findAll({
     where: queryInfo,
-    offset: start,
-    limit: Number(pageNum),
+    offset: start || 0,
+    limit: Number(pageNum) || 10,
     order: [["createtime", "DESC"]],
   });
 
@@ -34,10 +42,18 @@ async function getAllNotice({ title, startTime, endTime, pageNum, currPage }) {
   };
 }
 
+/* 获取阅读人数 */
+async function getReadNum({ u_id }) {
+  const result = await Read.findAll({
+    where: { u_id }
+  })
+  return result
+}
+
 // 删除通知
-async function deleteNotice({n_id}) {
+async function deleteNotice({ n_id }) {
   const result = await Notice.destroy({
-    where: {n_id}
+    where: { n_id }
   })
   return result
 }
@@ -52,8 +68,11 @@ async function createNotice() {
   return result
 }
 
+// 
+
 module.exports = {
   getAllNotice,
   deleteNotice,
-  createNotice
+  createNotice,
+  getReadNum
 };

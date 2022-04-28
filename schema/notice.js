@@ -28,7 +28,9 @@ module.exports = (sequelize, DataTypes) => {
 		{
 			sequelize,
 			tableName: 'notice',
-			timestamps: false,
+			timestamps: true,
+			createdAt: 'createtime',
+			updatedAt: false,
 			indexes: [
 				{
 					name: 'PRIMARY',

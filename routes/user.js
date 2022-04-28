@@ -25,7 +25,8 @@ router.post('/login',async (ctx) => {
             const jwt_token = jwtUtil.sign({
                 id:result.dataValues.id,
                 username:result.dataValues.username,
-                type:result.dataValues.type
+                type:result.dataValues.type,
+                class: result.dataValues.classes || ''
             },SIGNKEY,'3h')
             
             ctx.response.body = {
