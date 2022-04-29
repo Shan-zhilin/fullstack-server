@@ -63,4 +63,22 @@ router.get('/notice/getReadNum',async (ctx) => {
         }
     }
 })
+
+// 阅读通知
+router.get('/notice/read',async (ctx) => {
+    const {u_id,n_id} = ctx.request.query
+
+    const result = await Notice.createRead({u_id,n_id})
+    if (result) {
+        ctx.response.body = {
+            message:'阅读成功',
+            success:true,
+        }
+    }else {
+        ctx.response.body = {
+            message:'阅读失败',
+            success: false,
+        }
+    }
+})
 module.exports = router

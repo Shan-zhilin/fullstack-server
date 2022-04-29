@@ -68,11 +68,22 @@ async function createNotice() {
   return result
 }
 
-// 
+// 删除一个阅读
+async function createRead({ n_id, u_id }) {
+  console.log(u_id,n_id)
+  const result = await Read.create(
+    {
+      n_id,
+      u_id
+    }
+  )
+  return result
+}
 
 module.exports = {
   getAllNotice,
   deleteNotice,
   createNotice,
-  getReadNum
+  getReadNum,
+  createRead
 };
