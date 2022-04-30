@@ -4,7 +4,7 @@ const Teacher = require('../schema/teacher')(sequelize,DataTypes);
 
 // 查询单个教师
 async function getTeacher({ username, password, type }){
-    return await Student.findOne({
+    return await Teacher.findOne({
         where: {
           username,
         },

@@ -3,24 +3,25 @@ module.exports = (sequelize, DataTypes) => {
 		'healthy',
 		{
 		    h_id: {
+                autoIncrement: true,
 				type: DataTypes.INTEGER,
 				allowNull: true,
 				primaryKey: true
 			},
 			u_id: {
-				type: DataTypes.STRING(255),
+				type: DataTypes.STRING,
 				allowNull: false
 			},
             username: {
-				type: DataTypes.STRING(255),
+				type: DataTypes.STRING,
 				allowNull: false
 			},
             class: {
-				type: DataTypes.STRING(255),
+				type: DataTypes.STRING,
 				allowNull: false
 			},
             temperature:{
-                type: DataTypes,
+                type: DataTypes.FLOAT,
                 allowNull: false
             },
             hot:{
@@ -61,7 +62,7 @@ module.exports = (sequelize, DataTypes) => {
             },
 			createtime: {
 				type: DataTypes,
-				allowNull: false
+				allowNull: true
 			}
 		},
 		{
@@ -69,7 +70,7 @@ module.exports = (sequelize, DataTypes) => {
 			tableName: 'healthy',
 			timestamps: true,
 			createdAt: 'createtime',
-			updatedAt: fasle,
+			updatedAt: false,
 			indexes: [
 				{
 					name: 'PRIMARY',
