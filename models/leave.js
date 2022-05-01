@@ -13,8 +13,8 @@ async function addleave(args) {
 }
 
 // 查询申请
-async function getAllLeave({ username, u_id, startTime, endTime, pageNum, currPage, classes }) {
-    console.log({ username, u_id, startTime, endTime, pageNum, currPage, classes })
+async function getAllLeave({c_id,username, u_id, startTime, endTime, pageNum, currPage, classes }) {
+    console.log({c_id, username, u_id, startTime, endTime, pageNum, currPage, classes })
     // limit表示每页多少个,offset表示查第几页 按每一页多少条数据 进行分组
     const start = pageNum * (Number(currPage) - 1);
     const queryInfo = {}
@@ -25,9 +25,11 @@ async function getAllLeave({ username, u_id, startTime, endTime, pageNum, currPa
         queryInfo.username = username
     }
     if (classes) {
-        queryInfo.classes = {
-            // 根据class 进行模糊查询
-            [Op.like]: `%${classes}%`
+        queryInfo.classes = classes
+    }
+    if (c_id) {
+        queryInfo.c_id = {
+            [Op.in]: c_id.split(',')
         }
     }
     if (startTime) {
@@ -35,7 +37,7 @@ async function getAllLeave({ username, u_id, startTime, endTime, pageNum, currPa
             [Op.between]: [startTime, endTime]
         }
     }
-    const data = await Leave.findAll({
+    const result = await Leave.findAll({
         where: queryInfo,
         offset: start || 0,
         limit: Number(pageNum) || 10,
@@ -46,7 +48,7 @@ async function getAllLeave({ username, u_id, startTime, endTime, pageNum, currPa
 
     return {
         count,
-        data,
+        result,
     };
 }
 

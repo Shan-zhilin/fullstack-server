@@ -22,7 +22,20 @@ router.post('/leave/add',async (ctx) => {
 
 /* 请假申请查询 */
 router.post('/leave/getAllLeave',async (ctx) => {
-    const result = await Leave.getAllLeave(ctx.request.body)
-    console.log(result)
+    const {result,count} = await Leave.getAllLeave(ctx.request.body)
+
+    if (result.length > 0) {
+        ctx.response.body = {
+            success: true,
+            message: '查询成功',
+            result,
+            count
+        }
+    }else {
+        ctx.response.body = {
+            success: false,
+            message: '查询失败'
+        }
+    }
 })
 module.exports = router
