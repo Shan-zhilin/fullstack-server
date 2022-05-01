@@ -1,73 +1,66 @@
 module.exports = (sequelize, DataTypes) => {
 	return sequelize.define(
-		'teachers',
+		'leavel',
 		{
-			id: {
+			l_id: {
+				autoIncrement: true,
 				type: DataTypes.INTEGER,
-				allowNull: false,
+				allowNull: true,
 				primaryKey: true
 			},
-			username: {
+			u_id: {
 				type: DataTypes.STRING(255),
 				allowNull: false
-			},
-			password: {
-				type: DataTypes.STRING(255),
-				allowNull: false
-			},
-			tell:{
-				type: DataTypes.STRING(20),
-				allowNull: false
-			},
-			sex:{
-				type:DataTypes.STRING(2),
-				allowNull:false
-			},
-			type: {
-				type: DataTypes.INTEGER,
-				allowNull: false
-			},
-			address: {
-				type: DataTypes.STRING(255),
-				allowNull: true
-			},
-			mailbox: {
-				type: DataTypes.STRING(255),
-				allowNull: true
-			},
-			modifytime:{
-				type: DataTypes,
-				allowNull: false
-			},
-			createtime: {
-				type: DataTypes,
-				allowNull: false
-			},
-			head:{
-				type: DataTypes.STRING(255),	
-				allowNull: true
 			},
 			c_id: {
 				type: DataTypes.STRING(255),
-				allowNull: true,
+				allowNull: false,
 			},
-			classes:{
-				type:DataTypes.STRING(255),
-				allowNull:true
+			reason: {
+				type: DataTypes.STRING(255),
+				allowNull: false
+			},
+			leavetype:{
+				type: DataTypes.STRING(11),
+				allowNull: false
+			},
+			starttime:{
+				type:DataTypes,
+				allowNull:false
+			},
+			endtime: {
+				type: DataTypes,
+				allowNull: false
+			},
+			status: {
+				type: DataTypes.INTEGER,
+				allowNull: true
+			},
+			classes: {
+				type: DataTypes.STRING(255),
+				allowNull: true
+			},
+			username:{
+				type: DataTypes.STRING(255),
+				allowNull: true
+			},
+			createtime: {
+				type: DataTypes,
+				allowNull: true
 			},
 		},
 		{
 			sequelize,
-			tableName: 'teachers',
+			tableName: 'leavel',
 			timestamps: true,
 			createdAt: 'createtime',
-			updatedAt: 'modifytime',
+			updatedAt: false,
 			indexes: [
 				{
 					name: 'PRIMARY',
 					unique: true,
 					using: 'BTREE',
-					fields: [{ name: 'id' }]
+					fields: [{ name: 'l_id' }]
 				}
 			]
 		}

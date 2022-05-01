@@ -26,7 +26,8 @@ router.post('/login',async (ctx) => {
                 id:result.dataValues.id,
                 username:result.dataValues.username,
                 type:result.dataValues.type,
-                class: result.dataValues.classes || ''
+                class: result.dataValues.classes || '',
+                c_id: result.dataValues.c_id || '',
             },SIGNKEY,'3h')
             
             ctx.response.body = {
@@ -141,6 +142,7 @@ router.post('/users/upUserdata',async (ctx) => {
 // 添加用户
 router.post('/users/addUserdata',async (ctx) => {
     const {info} = ctx.request.body
+    console.log(info)
     const result = await User.addUser(JSON.parse(info))
     if (result === 'exit') {
         ctx.response.body = {

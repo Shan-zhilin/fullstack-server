@@ -82,7 +82,6 @@ async function updateUserInfo({ info }) {
       info
     });
   }
-  console.log(result)
   return result[0];
 }
 
