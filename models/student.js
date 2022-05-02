@@ -4,10 +4,10 @@ const Student = require('../schema/student')(sequelize,DataTypes);
 const Read = require("../schema/read")(sequelize, DataTypes);
 
 // 查询单个学生
-async function getStudent({ username, password, type }){
+async function getStudent({ id }){
     return await Student.findOne({
         where: {
-          username,
+          id,
         },
     });
 }
@@ -27,6 +27,7 @@ async function getStudentInfo({ queryInfo, pageNum, currPage }){
     result,
   }
 }
+
 
 // 删除学生
 async function deleteStudent({id}) {

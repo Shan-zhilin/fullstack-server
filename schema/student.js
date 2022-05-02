@@ -3,7 +3,7 @@ module.exports = (sequelize, DataTypes) => {
 		'students',
 		{
 			id: {
-				type: DataTypes.INTEGER,
+				type: DataTypes.STRING(255),
 				allowNull: false,
 				primaryKey: true
 			},
@@ -24,7 +24,7 @@ module.exports = (sequelize, DataTypes) => {
 				allowNull: false
 			},
 			sex:{
-				type:DataTypes.STRING(2),
+				type:DataTypes.INTEGER,
 				allowNull:false
 			},
 			type: {

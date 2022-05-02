@@ -8,19 +8,19 @@ const {SIGNKEY} = require('../globals')
 router.post('/login',async (ctx) => {
     const data = ctx.request.body;
     const result = await User.login({
-        username:data.username,
+        id:data.id,
         password:data.password,
         type: data.type
     });
 
     if (result != null) {
         const {
-            username,
+            id,
             password,
             type
         } = result.dataValues;
 
-        if (username === data.username && password === data.password && type == data.type) {
+        if (id === data.id && password === data.password && type == data.type) {
             // 生成token返回给前端
             const jwt_token = jwtUtil.sign({
                 id:result.dataValues.id,
@@ -36,9 +36,9 @@ router.post('/login',async (ctx) => {
                 jwt_token,
                 success: true
             }
-        } else if (username != data.username ) {
+        } else if (id != data.id ) {
             ctx.response.body = {
-                message: '用户名错误',
+                message: '帐号错误',
                 success: false
             }
         }else if (password != data.password) {
@@ -105,6 +105,24 @@ router.get('/users/getUsersByTypePage',async (ctx) => {
    
 })
 
+// 获取单个用户信息
+router.get('/users/getOneUser',async (ctx) => {
+    const {id,type} = ctx.request.query
+    const result = await User.getOneUser({id,type})
+    if (result.dataValues) {
+        ctx.response.body = {
+            success:true,
+            message:'查询成功',
+            value: result.dataValues
+        }
+    }else {
+        ctx.response.body = {
+            success:false,
+            message:'查询失败,请确认查询条件'
+        }
+    }
+})
+
 // 删除用户
 router.get('/users/delUserdata',async (ctx) => {
     const {id,type} = ctx.request.query
@@ -126,6 +144,7 @@ router.get('/users/delUserdata',async (ctx) => {
 router.post('/users/upUserdata',async (ctx) => {
     const {info} = ctx.request.body
     const result = await User.updateUserInfo({info: JSON.parse(info)})
+
     if (result) {
         ctx.response.body = {
             success: true,
@@ -142,7 +161,6 @@ router.post('/users/upUserdata',async (ctx) => {
 // 添加用户
 router.post('/users/addUserdata',async (ctx) => {
     const {info} = ctx.request.body
-    console.log(info)
     const result = await User.addUser(JSON.parse(info))
     if (result === 'exit') {
         ctx.response.body = {

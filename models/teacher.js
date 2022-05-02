@@ -3,10 +3,10 @@ const { DataTypes } = require("sequelize");
 const Teacher = require('../schema/teacher')(sequelize,DataTypes);
 
 // 查询单个教师
-async function getTeacher({ username, password, type }){
+async function getTeacher({ id }){
     return await Teacher.findOne({
         where: {
-          username,
+          id,
         },
     });
 }  
@@ -60,5 +60,5 @@ module.exports = {
     deleteTeacher,
     getTeacherInfo,
     getTeacher,
-    createTeacher
+    createTeacher,
 }

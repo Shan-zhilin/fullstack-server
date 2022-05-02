@@ -11,17 +11,17 @@ const jwtUtil = require("../utils/jwtutils");
  * @param {*} username
  * @return {*} userInfo
  */
-async function login({ username, password, type }) {
+async function login({ id, type }) {
   if (type === 1) {
     return await Admin.findOne({
       where: {
-        username,
+        id,
       },
     });
   } else if (type === 2) {
-    return await Student.getStudent({ username, password, type });
+    return await Student.getStudent({ id });
   } else {
-    return await Teacher.getTeacher({ username, password, type });
+    return await Teacher.getTeacher({ id});
   }
 }
 
@@ -46,6 +46,15 @@ async function getUsersByTypePage({ queryInfo, pageNum, currPage }) {
     return await Student.getStudentInfo({ queryInfo, pageNum, currPage });
   } else if (type === 3) {
     return await Teacher.getTeacherInfo({ queryInfo, pageNum, currPage });
+  }
+}
+
+/* 获取单个用户信息 */
+async function getOneUser({id,type}){
+  if (type == 2) {
+    return await Student.getStudent({ id });
+  }else {
+    return await Teacher.getTeacher({ id });
   }
 }
 
@@ -108,5 +117,6 @@ module.exports = {
   getUsersByTypePage,
   deleteUser,
   updateUserInfo,
-  addUser
+  addUser,
+  getOneUser
 };
