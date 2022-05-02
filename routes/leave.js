@@ -4,8 +4,8 @@ const router = new Router()
 
 /* 添加一条申请 */
 router.post('/leave/add',async (ctx) => {
-    const {u_id,reason,leavetype,starttime,endtime,status,classes,username} = ctx.request.body
-    const result = await Leave.addleave({u_id,reason,leavetype,starttime,endtime,status,classes,username})
+    const {c_id,u_id,reason,leavetype,starttime,endtime,status,classes,username} = ctx.request.body
+    const result = await Leave.addleave({c_id,u_id,reason,leavetype,starttime,endtime,status,classes,username})
 
     if (result.dataValues) {
         ctx.response.body = {
@@ -28,7 +28,7 @@ router.post('/leave/getAllLeave',async (ctx) => {
         ctx.response.body = {
             success: true,
             message: '查询成功',
-            result,
+            value: result,
             count
         }
     }else {
