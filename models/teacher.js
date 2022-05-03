@@ -43,7 +43,7 @@ async function updateTeacher({info}){
     const result = await Teacher.update(info,{
         where: {
           id:info.id
-        }
+        },
     })
     return result
 }

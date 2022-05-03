@@ -50,7 +50,7 @@ async function updateStudent({info}){
     return await Student.update(info,{
         where: {
           id:info.id
-        }
+        },
     })
 }
 

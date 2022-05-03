@@ -144,6 +144,7 @@ router.get('/users/delUserdata',async (ctx) => {
 router.post('/users/upUserdata',async (ctx) => {
     const {info} = ctx.request.body
     const result = await User.updateUserInfo({info: JSON.parse(info)})
+    console.log(result)
 
     if (result) {
         ctx.response.body = {

@@ -48,7 +48,18 @@ async function getAllLeave({c_id,username, u_id, starttime, endtime, pageNum, cu
     };
 }
 
+// 审核请假申请状态
+async function updateApply({l_id, status}) {
+    return await Leave.update({
+        status
+    }, {
+        where: {
+            l_id
+        }
+    })
+}
 module.exports = {
     addleave,
-    getAllLeave
+    getAllLeave,
+    updateApply
 }
