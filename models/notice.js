@@ -34,7 +34,7 @@ async function getAllNotice({ title, startTime, endTime, pageNum, currPage, clas
     order: [["createtime", "DESC"]],
   });
 
-  const count = await Notice.count();
+  const count = await Notice.count({ where: queryInfo });
 
   return {
     count,
@@ -70,7 +70,7 @@ async function createNotice() {
 
 // 删除一个阅读
 async function createRead({ n_id, u_id }) {
-  console.log(u_id,n_id)
+  console.log(u_id, n_id)
   const result = await Read.create(
     {
       n_id,
