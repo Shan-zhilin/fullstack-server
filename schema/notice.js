@@ -8,22 +8,26 @@ module.exports = (sequelize, DataTypes) => {
 				allowNull: true,
 				primaryKey: true
 			},
-            title: {
-                type: DataTypes,
-                allowNull: false
-            },
-            content: {
-                type: DataTypes,
-                allowNull: true
-            },
-            createtime: {
-                type: DataTypes,
-                allowNull: true
-            },
-            class: {
-                type: DataTypes,
-                allowNull: false,
-            }
+			title: {
+				type: DataTypes,
+				allowNull: false
+			},
+			content: {
+				type: DataTypes,
+				allowNull: true
+			},
+			adjunct: {
+				type: DataTypes.STRING(255),
+				allowNull: true
+			},
+			createtime: {
+				type: DataTypes,
+				allowNull: true
+			},
+			class: {
+				type: DataTypes,
+				allowNull: false,
+			}
 		},
 		{
 			sequelize,

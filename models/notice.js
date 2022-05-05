@@ -59,11 +59,12 @@ async function deleteNotice({ n_id }) {
 }
 
 // 创建一个通知
-async function createNotice() {
+async function createNotice({ title, classes, content, adjunct }) {
   const result = await Notice.create({
-    title: '111',
-    content: 11,
-    class: 1,
+    title,
+    content,
+    class: classes,
+    adjunct
   })
   return result
 }

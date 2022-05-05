@@ -35,16 +35,17 @@ router.get('/notice/deleteNotice',async (ctx) => {
 })
 
 // 添加通知
-router.get('/notice/add',async (ctx) => {
-    const result = await Notice.createNotice()
+router.post('/notice/add',async (ctx) => {
+    const {title,classes,content,adjunct} = ctx.request.body
+    const result = await Notice.createNotice({title,classes,content,adjunct})
     if (result) {
         ctx.response.body = {
-            message:'删除成功',
+            message:'发布成功',
             success:true
         }
     }else {
         ctx.response.body = {
-            message:'删除失败',
+            message:'发布失败,请重试',
             success:false
         }
     }
