@@ -43,9 +43,9 @@ async function getAllNotice({ title, startTime, endTime, pageNum, currPage, clas
 }
 
 /* 获取阅读人数 */
-async function getReadNum({ u_id }) {
+async function getReadNum(info) {
   const result = await Read.findAll({
-    where: { u_id }
+    where: info
   })
   return result
 }
@@ -69,13 +69,14 @@ async function createNotice({ title, classes, content, adjunct }) {
   return result
 }
 
-// 删除一个阅读
-async function createRead({ n_id, u_id }) {
-  console.log(u_id, n_id)
+// 创建一个阅读
+async function createRead({ n_id, u_id, username, head }) {
   const result = await Read.create(
     {
       n_id,
-      u_id
+      u_id,
+      username,
+      head
     }
   )
   return result

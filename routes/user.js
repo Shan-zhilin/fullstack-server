@@ -28,6 +28,7 @@ router.post('/login',async (ctx) => {
                 type:result.dataValues.type,
                 class: result.dataValues.classes || '',
                 c_id: result.dataValues.c_id || '',
+                head: result.dataValues.head || '',
             },SIGNKEY,'3h')
             
             ctx.response.body = {
@@ -144,7 +145,6 @@ router.get('/users/delUserdata',async (ctx) => {
 router.post('/users/upUserdata',async (ctx) => {
     const {info} = ctx.request.body
     const result = await User.updateUserInfo({info: JSON.parse(info)})
-    console.log(result)
 
     if (result) {
         ctx.response.body = {
