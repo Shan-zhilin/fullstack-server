@@ -19,4 +19,12 @@ router.post('/healthy/create', async (ctx) => {
     }
 
 })
+
+router.get('/healthy/getnum', async (ctx) => {
+    const { isTest, isWrite, isHeigh } = await Healthy.getTodayHealthyApplyNum()
+    ctx.response.body = {
+        success: true,
+        value: { isTest, isWrite, isHeigh }
+    }
+})
 module.exports = router
