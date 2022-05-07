@@ -31,7 +31,6 @@ async function getStudentInfo({ queryInfo, pageNum, currPage }) {
 
 // 删除学生
 async function deleteStudent({ id }) {
-  console.log(id)
   let delReadRes = await Read.destroy({
     where: {
       u_id: id

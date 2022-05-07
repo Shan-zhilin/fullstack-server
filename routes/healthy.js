@@ -22,9 +22,18 @@ router.post('/healthy/create', async (ctx) => {
 
 router.get('/healthy/getnum', async (ctx) => {
     const { isTest, isWrite, isHeigh } = await Healthy.getTodayHealthyApplyNum()
-    ctx.response.body = {
-        success: true,
-        value: { isTest, isWrite, isHeigh }
+    if (isTest != '' || isWrite != '' || isHeigh != '') {
+        ctx.response.body = {
+            success: true,
+            message: '获取成功',
+            value: { isTest, isWrite, isHeigh }
+        }
+    }else {
+        ctx.response.body = {
+            success: false,
+            message: '查询失败',
+        }
     }
+
 })
 module.exports = router
